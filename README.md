@@ -16,3 +16,9 @@ Caso Práctico 2 - UNIR (Curso Experto DevOps)
     ├── main.tf
     └── recursos.tf
 
+## 10/07/2022 - Despliegue de Terraform
+
+- Upgrade Azure Provider from 3.0.2 to 3.1.0
+- Definición de correccion-vars.tf
+- Definición de output.tf
+- Estructura de recursos.tf

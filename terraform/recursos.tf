@@ -1,6 +1,95 @@
-#Grupo de recursos
+# RG
 
 resource "azurerm_resource_group" "rg" {
-  name     = "sgd_caso2_rgp"
-  location = "westeurope"
+  name     = var.resource_group_name
+  location = var.location_name
+}
+
+# VNet (/16)
+
+resource "azurerm_virtual_network" "vnet" {
+  name                = var.network_name
+  address_space       = ["10.0.0.0/16"]
+  location            = azurerm_resource_group.rg.location
+  resource_group_name = azurerm_resource_group.rg.name
+}
+
+# SubNet (/24)
+
+resource "azurerm_subnet" "subnet" {
+  name                 = var.subnet_name
+  resource_group_name  = azurerm_resource_group.rg.name
+  virtual_network_name = azurerm_virtual_network.vnet.name
+  address_prefixes     = ["10.0.2.0/24"]
+}
+
+# NIC
+
+resource "azurerm_network_interface" "nic" {
+  name                = "vnic-${count.index}"
+  count               = length(var.vms)
+  location            = azurerm_resource_group.rg.location
+  resource_group_name = azurerm_resource_group.rg.name
+
+  ip_configuration {
+    name                          = "ipconf-${count.index}"
+    subnet_id                     = azurerm_subnet.subnet.id
+    private_ip_address_allocation = "Static"
+    private_ip_address            = "10.0.2.${count.index + 10}"
+    public_ip_address_id          = azurerm_public_ip.MyExternalIP.*.id[count.index]
+  }
+}
+
+# IP Pública
+
+resource "azurerm_public_ip" "MyExternalIP" {
+  count               = length(var.vms)
+  name                = "vmip-${count.index}"
+  location            = azurerm_resource_group.rg.location
+  resource_group_name = azurerm_resource_group.rg.name
+  allocation_method   = "Dynamic"
+  sku                 = "Basic"
+}
+
+# VMs
+
+resource "azurerm_linux_virtual_machine" "vm" {
+  count               = length(var.vms)
+  name                = "vm-${var.vms[count.index]}"
+  resource_group_name = azurerm_resource_group.rg.name
+  location            = azurerm_resource_group.rg.location
+  size                = "${var.sizes[count.index]}"
+  admin_username      = "azuser"
+  network_interface_ids = [
+    azurerm_network_interface.nic[count.index].id,
+  ]
+
+# SSH
+
+  admin_ssh_key {
+    username   = "azuser"
+    public_key = file("~/.ssh/id_rsa.pub")
+  }
+
+# OS_Disk
+
+  os_disk {
+    caching              = "ReadWrite"
+    storage_account_type = "Standard_LRS"
+  }
+
+# OS_Image
+
+  plan {
+    name      = "centos-8-stream-free"
+    product   = "centos-8-stream-free"
+    publisher = "cognosys"
+  }
+
+  source_image_reference {
+    publisher = "cognosys"
+    offer     = "centos-8-stream-free"
+    sku       = "centos-8-stream-free"
+    version   = "22.03.28"
+  }  
 }
