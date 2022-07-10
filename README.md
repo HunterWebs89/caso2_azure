@@ -3,18 +3,21 @@ Caso Práctico 2 - UNIR (Curso Experto DevOps)
 
 ## 03/07/2022 - Estructura del repositorio (organización)
 
-├── ansible
-│   ├── deploy.sh
-│   ├── hosts
-│   ├── playbook.yml
-│   └── roles
-│       ├── role1
-│       ├── role2
-│       └── role3
-└── terraform
+```
+├── Ansible
+│   ├── deploy.sh
+│   ├── hosts
+│   ├── playbook.yml
+│   └── roles
+│       ├── role1
+│       ├── role2
+│       └── role3
+└── Terraform
     ├── correccion-vars.tf
+    ├── output.tf
     ├── main.tf
     └── recursos.tf
+```
 
 ## 10/07/2022 - Despliegue de Terraform
 
