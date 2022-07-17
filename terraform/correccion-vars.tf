@@ -1,27 +1,23 @@
-variable "resource_group_name" {
-  default = "sgd_caso2_rgp"
-}
-
-variable "location_name" {
+variable "location" {
+  type = string
+  description = "Región de Azure donde crearemos la infraestructura"
   default = "East US 2"
 }
 
-variable "network_name" {
-  default = "vnet1"
+variable "vm_size_master" {
+  type = string
+  description = "Tamaño de la máquina virtual (master)"
+  default = "Standard_DS2_v2" # 7 GB, 2 CPU 
 }
 
-variable "subnet_name" {
-  default = "subnet1"
+variable "vm_size_nfs" {
+  type = string
+  description = "Tamaño de la máquina virtual (nfs)"
+  default = "Standard_B2s" # 4 GB, 2 CPU 
 }
 
-variable "vms" {
-  description = "VMs"
-  type        = list(string)
-  default     = ["master", "worker", "nfs"]
-}
-
-variable "sizes" {
-  description = "Sizes de las VMs"
-  type        = list(string)
-  default     = ["Standard_D2_v2", "Standard_B2s", "Standard_B2s"]
+variable "vm_size_worker" {
+  type = string
+  description = "Tamaño de la máquina virtual (worker)"
+  default = "Standard_B2s" # 4 GB, 2 CPU 
 }
