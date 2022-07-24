@@ -22,15 +22,15 @@ Caso Práctico 2 - UNIR (Curso Experto DevOps)
 │       ├── kubeadm-join-command.yaml
 │       ├── network.yaml
 │   └── roles
-│       ├── hosts
-│       ├── requisitos
-│       └── nfs
-│       └── kubernetes
-│       └── master
-│       └── workers
-│       └── ingress-controller
-│       └── argocd
-│       └── helm-app
+        └── hosts
+        └── requisitos
+        └── nfs
+        └── kubernetes
+        └── master
+        └── workers
+        └── ingress-controller
+        └── argocd
+        └── helm-app
 └── Terraform
     ├── correccion-vars.tf
     ├── output.tf
@@ -47,11 +47,11 @@ Caso Práctico 2 - UNIR (Curso Experto DevOps)
         └── worker-network.tf
         └── worker-security.tf
 └── Ansible
-│       └── deployment.yaml
-│       └── persistentvolume.yaml
-│       └── ingress.yaml
-│       └── jenkins-svc.yaml
-│       └── nfs-svc.yaml
+        └── deployment.yaml
+        └── persistentvolume.yaml
+        └── ingress.yaml
+        └── jenkins-svc.yaml
+        └── nfs-svc.yaml
 ```
 
 ## 10/07/2022 - Despliegue vía Terraform
