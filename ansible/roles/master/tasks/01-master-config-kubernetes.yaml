@@ -1,0 +1,111 @@
+---
+
+- name: Apertura puerto 8285/udp
+  firewalld:
+    port: 8285/udp
+    permanent: true
+    state: enabled
+
+- name: Apertura puerto 8472/udp
+  firewalld:
+    port: 8472/udp
+    permanent: true
+    state: enabled
+
+- name: Apertura puerto 2379-2380/tcp 
+  firewalld:
+    port: 2379-2380/tcp
+    permanent: true
+    state: enabled
+
+- name: Apertura puerto 6443/tcp
+  firewalld:
+    port: 6443/tcp
+    permanent: true
+    state: enabled
+
+- name: Apertura puerto 10250-10252/tcp 
+  firewalld:
+    port: 10250-10252/tcp
+    permanent: true
+    state: enabled
+
+- name: Apertura puerto 10255/tcp
+  firewalld:
+    port: 10255/tcp
+    permanent: true
+    state: enabled
+
+- name: Recargar firewalld
+  systemd:
+    name: firewalld
+    state: reloaded
+
+- name: Configurar kubeadm (descarga de imágenes)
+  command: kubeadm config images pull
+
+#- name: Apertura desde Worker al Master
+#  firewalld:
+#    rich_rule: rule family=ipv4 source address={{ ip_worker }}/32 accept
+#    permanent: true
+#    state: enabled
+
+- name: Apertura desde Worker al Master
+  command: firewall-cmd --permanent --add-rich-rule 'rule family=ipv4 source address={{ ip_worker }}/32 port port=6443 protocol=tcp accept'
+  become: true
+
+- name: Reiniciar firewall
+  command: firewall-cmd --reload
+
+- name: Plugin CNI de Kubernetes
+  command: kubeadm init --pod-network-cidr {{ pods_network }}/16 --apiserver-advertise-address {{ ip_master }}
+  register: kubeadm_init
+  become: true
+
+- name: Crear nuevo directorio de configuración .kube
+  become_user: azuser
+  file:
+        path: /home/azuser/.kube
+        state: directory
+        mode: 0755
+  become: true
+
+- name: Copiar archivo de configuración de kubernetes al directorio .kube
+  copy:
+        src: /etc/kubernetes/admin.conf
+        dest: /home/azuser/.kube/config
+        remote_src: yes
+        owner: azuser
+
+- name: Configurar permisos del kubeconfig
+  file:
+        path: /home/azuser/.kube/config 
+        owner: azuser
+        group: azuser
+
+- name: Obtener información unir worker
+  become: true
+  become_user: azuser
+  shell: kubeadm token create  --print-join-command
+
+- name: Guardar información unir worker
+  become: true
+  become_user: azuser
+  shell: kubeadm token create  --print-join-command > /home/azuser/config_worker
+
+#- name: Tigera Yaml
+#  command: kubectl create -f https://docs.projectcalico.org/manifests/tigera-operator.yaml
+#  become: true
+
+#- name: Apply a calico manifset to init the pod network
+#  become: true
+#  become_user: azuser
+#  shell: kubectl apply -f https://docs.projectcalico.org/manifests/calico.yaml
+
+- name: Iniciar la pod network
+  become: true
+  become_user: azuser
+  shell: kubectl apply -f https://docs.projectcalico.org/manifests/canal.yaml
+
+- name: Reiniciar master
+  command: init 6

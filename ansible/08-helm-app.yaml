@@ -1,0 +1,7 @@
+---
+
+- name: Despliegue de microservicio NFS
+  hosts: master
+  gather_facts: false
+  roles:
+    - { role: helm-app, become: yes }

@@ -1,0 +1,12 @@
+---
+
+- name: Añadir variables al fichero /etc/hosts
+  copy:
+    dest: "/etc/hosts"
+    content: |
+      127.0.0.1 localhost localhost.localdomain localhost4 localhost4.localdomain4
+      ::1 localhost localhost.localdomain localhost6 localhost6.localdomain6
+      {{ ip_master }} {{ hostname_master }} {{ hostname_domain_master }}
+      {{ ip_worker }} {{ hostname_worker }} {{ hostname_domain_worker }}
+      {{ ip_nfs }} {{ hostname_nfs }} {{ hostname_domain_nfs }}      
+  become: true

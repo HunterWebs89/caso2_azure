@@ -1,0 +1,96 @@
+---
+
+- name: Instalar actualizaciones disponibles
+  yum:
+    name: '*'
+    state: latest
+    update_cache: yes
+    update_only: yes
+  register: yum_update_status
+
+- name: Definir zona horaria
+  command: timedatectl set-timezone Europe/Madrid
+  become: true
+
+- name: Instalar chrony
+  dnf:
+    name: chrony
+    state: latest
+  become: true
+
+- name: Habilitar e iniciar chronyd
+  systemd: 
+    name: chronyd
+    state: started
+    enabled: yes
+    masked: no
+  become: true
+
+- name: Habilitar ntp
+  command: timedatectl set-ntp true
+  become: true
+
+#- name: Desactivar SELinux
+#  command: sed -i s/=enforcing/=disabled/g /etc/selinux/config
+
+- name: Desactivar SELinux
+  selinux:
+    state: disabled
+  become: true
+
+- name: Instalar firewalld
+  dnf:
+    name: firewalld
+    state: latest
+  become: true  
+
+- name: Habilitar e iniciar firewalld
+  systemd: 
+    name: firewalld
+    state: started
+    enabled: yes
+    masked: no
+  become: true  
+
+- name: Instalar paquete nfs-utils
+  dnf:
+    name: nfs-utils
+    state: latest
+  become: true
+
+- name: Instalar paquete nfs4-acl-tools
+  dnf:
+    name: nfs4-acl-tools
+    state: latest
+  become: true
+
+- name: Crear directorio compartido
+  file: 
+    path: /mnt/shared_directory
+    state: directory
+  become: true
+
+- name: Configurar owner y permisos del directorio compartido
+  file:
+    path: /mnt/shared_directory
+    owner: nobody
+    group: nobody
+    mode: "777"
+  become: true
+
+- name: Instalar paquete curl
+  dnf:
+    name: curl
+    state: latest
+  become: true
+
+- name: Desactivar Swap permanentemente
+  replace:
+    path: /etc/fstab
+    regexp: '^(\s*)([^#\n]+\s+)(\w+\s+)swap(\s+.*)$'
+    replace: '#\1\2\3swap\4'
+    backup: yes
+  become: true
+
+- name: Reiniciar host
+  command: init 6
