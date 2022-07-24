@@ -5,23 +5,23 @@ Caso Práctico 2 - UNIR (Curso Experto DevOps)
 
 ```
 ├── Ansible
-│   ├── deploy.sh
-│   ├── ping.sh
-│   ├── hosts
-│   ├── 00-hosts.yaml
-│   ├── 01-requisitos.yaml
-│   ├── 02-nfs.yaml
-│   ├── 03-kubernetes.yaml
-│   ├── 04-master.yaml
-│   ├── 05-workers.yaml
-│   ├── 06-ingress-controller.yaml
-│   ├── 07-argocd.yaml
-│   ├── 08-helm-app.yaml
-│   └── group_vars
-│       ├── hosts.yaml
-│       ├── kubeadm-join-command.yaml
-│       ├── network.yaml
-│   └── roles
+    ├── deploy.sh
+    ├── ping.sh
+    ├── hosts
+    ├── 00-hosts.yaml
+    ├── 01-requisitos.yaml
+    ├── 02-nfs.yaml
+    ├── 03-kubernetes.yaml
+    ├── 04-master.yaml
+    ├── 05-workers.yaml
+    ├── 06-ingress-controller.yaml
+    ├── 07-argocd.yaml
+    ├── 08-helm-app.yaml
+    └── group_vars
+        ├── hosts.yaml
+        ├── kubeadm-join-command.yaml
+        ├── network.yaml
+    ├── roles
         └── hosts
         └── requisitos
         └── nfs
@@ -35,7 +35,7 @@ Caso Práctico 2 - UNIR (Curso Experto DevOps)
     ├── correccion-vars.tf
     ├── output.tf
     ├── main.tf
-    └── recursos
+    ├── recursos
         └── network.tf
         └── master.tf
         └── master-network.tf
