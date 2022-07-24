@@ -6,12 +6,31 @@ Caso Práctico 2 - UNIR (Curso Experto DevOps)
 ```
 ├── Ansible
 │   ├── deploy.sh
+│   ├── ping.sh
 │   ├── hosts
-│   ├── playbook.yml
+│   ├── 00-hosts.yaml
+│   ├── 01-requisitos.yaml
+│   ├── 02-nfs.yaml
+│   ├── 03-kubernetes.yaml
+│   ├── 04-master.yaml
+│   ├── 05-workers.yaml
+│   ├── 06-ingress-controller.yaml
+│   ├── 07-argocd.yaml
+│   ├── 08-helm-app.yaml
+│   └── group_vars
+│       ├── hosts.yaml
+│       ├── kubeadm-join-command.yaml
+│       ├── network.yaml
 │   └── roles
-│       ├── role1
-│       ├── role2
-│       └── role3
+│       ├── hosts
+│       ├── requisitos
+│       └── nfs
+│       └── kubernetes
+│       └── master
+│       └── workers
+│       └── ingress-controller
+│       └── argocd
+│       └── helm-app
 └── Terraform
     ├── correccion-vars.tf
     ├── output.tf
@@ -27,6 +46,12 @@ Caso Práctico 2 - UNIR (Curso Experto DevOps)
         └── worker.tf
         └── worker-network.tf
         └── worker-security.tf
+└── Ansible
+│       └── deployment.yaml
+│       └── persistentvolume.yaml
+│       └── ingress.yaml
+│       └── jenkins-svc.yaml
+│       └── nfs-svc.yaml
 ```
 
 ## 10/07/2022 - Despliegue vía Terraform
@@ -47,4 +72,14 @@ Caso Práctico 2 - UNIR (Curso Experto DevOps)
 - Añadido tag de entorno
 - Añadidos NGS
 - Añadido Storage Account
+- Modificación del README.md
+
+## 23/07/2022 - Despliegue Ansible
+
+- Añadida toda la estructura de automatización para Ansible
+- Añadidos bash scripts
+- Añadida estructura de objetos yaml en K8s para desplegar Apps Jenkins/NFS-Server
+- Primeros pasos para generar Helm chart Apps Jenkins/NFS-Server (Prueba)
+- Modificación output.tf
+- Eliminados ficheros inválidos
 - Modificación del README.md

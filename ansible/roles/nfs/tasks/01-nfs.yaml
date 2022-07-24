@@ -1,0 +1,80 @@
+---
+
+- name: Instalar paquete nfs-utils
+  dnf:
+    name: nfs-utils
+    state: latest
+  become: true
+
+- name: Instalar paquete net-tools
+  dnf:
+    name: net-tools
+    state: latest
+  become: true
+
+- name: Crear directorio compartido
+  file: 
+    path: /mnt/shared_directory
+    state: directory
+  become: true
+
+- name: Configurar owner y permisos del directorio compartido
+  file:
+    path: /mnt/shared_directory
+    owner: nobody
+    group: nobody
+    mode: "777"
+  become: true
+
+- name: Añadir directorio compartido en /etc/exports
+  lineinfile:
+    path: /etc/exports
+    line: "{{ item }}" 
+  loop:
+    - "/mnt/shared_directory 10.0.2.10(rw,sync,no_subtree_check)"
+    - "/mnt/shared_directory 10.0.2.11(rw,sync,no_subtree_check)"
+    - "/mnt/shared_directory 10.0.2.12(rw,sync,no_subtree_check)"
+  become: true
+
+- name: Habilitar e iniciar nfs-server
+  systemd: 
+    name: nfs-server
+    state: started
+    enabled: yes
+    masked: no
+  become: true
+
+- name: Configurar los exportfs -arv
+  command: exportfs -arv
+  become: true
+
+- name: Configurar los exports exportfs -s
+  command: exportfs -s
+  become: true
+
+- name: Apertura de puertos para el servicio nfs sea accesible 
+  firewalld:
+    service: nfs
+    permanent: true
+    state: enabled
+  become: true
+
+- name: Apertura de puertos para el servicio rpc-bind sea accesible
+  firewalld:
+    service: rpc-bind
+    permanent: true
+    state: enabled
+  become: true
+
+- name: Apertura de puertos para el servicio mountd sea accesible
+  firewalld:
+    service: mountd
+    permanent: true
+    state: enabled
+  become: true
+
+- name: Recargar firewalld
+  systemd:
+    name: firewalld
+    state: reloaded
+  become: true

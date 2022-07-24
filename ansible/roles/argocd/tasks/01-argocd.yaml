@@ -1,0 +1,11 @@
+---
+
+- name: Crear namespace de ArgoCD
+  command: kubectl create namespace argocd
+  become_user: azuser
+  become: true
+
+- name: Desplegar ArgoCD
+  command: kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+  become_user: azuser
+  become: true

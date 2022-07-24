@@ -1,0 +1,9 @@
+---
+
+- name: Servidores Kubernetes
+  hosts: kubernetes
+  vars_files:
+    - "group_vars/hosts.yaml"
+  gather_facts: false
+  roles:
+    - { role: kubernetes, become: yes }

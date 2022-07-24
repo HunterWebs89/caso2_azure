@@ -1,0 +1,67 @@
+---
+
+- name: Descargar script de Helm
+  command: curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
+  become_user: azuser
+  become: true
+
+- name: Asignar permisos script de Helm
+  command: chmod 700 get_helm.sh
+  become_user: azuser
+  become: true
+
+- name: Instalar Helm
+  command: ./get_helm.sh
+  become_user: azuser
+  become: true
+
+- name: Borrar script de Helm
+  command: rm get_helm.sh
+  become_user: azuser
+  become: true
+
+- name: Instalar Git
+  dnf:
+    name: Git
+    state: latest
+  become: true
+
+- name: Clonar mi repositorio
+  command: git clone https://github.com/HunterWebs89/caso2_azure
+  become_user: azuser
+  become: true
+
+- name: Crear namespace de jenkins
+  command: kubectl create namespace jenkins
+  become_user: azuser
+  become: true
+
+- name: Desplegar Deployment 
+  command: kubectl apply -f /home/azuser/caso2_azure/jenkins/deployment.yaml
+  become_user: azuser
+  become: true
+
+- name: Desplegar PV
+  command: kubectl apply -f /home/azuser/caso2_azure/jenkins/persistentvolume.yaml
+  become_user: azuser
+  become: true
+
+- name: Desplegar Ingress
+  command: kubectl apply -f /home/azuser/caso2_azure/jenkins/ingress.yaml
+  become_user: azuser
+  become: true
+
+- name: Desplegar Jenkins
+  command: kubectl apply -f /home/azuser/caso2_azure/jenkins/jenkins-svc.yaml
+  become_user: azuser
+  become: true
+
+- name: Desplegar Nfs
+  command: kubectl apply -f /home/azuser/caso2_azure/jenkins/nfs-svc.yaml
+  become_user: azuser
+  become: true
+
+#- name: Desplegamos Helm nfs (prueba)
+#  command: helm install nfs stable/nfs-server-provisioner --set persistence.enabled=true,persistence.storageClass=do-block-storage,persistence.size=10Gi
+#  become_user: azuser
+#  become: true

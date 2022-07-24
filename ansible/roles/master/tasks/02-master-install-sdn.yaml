@@ -1,0 +1,24 @@
+---
+
+### Configuración de kubernetes network en local ###
+
+- name: Tigera Yaml
+  command: kubectl create -f https://docs.projectcalico.org/manifests/tigera-operator.yaml
+  become: true
+
+- name: Calico Yaml
+  get_url: 
+    url: https://docs.projectcalico.org/manifests/custom-resources.yaml
+    dest: /home/azuser/custom-resources.yaml
+  become: true
+
+- name: Asignar bloque CIDR
+  ansible.builtin.lineinfile:
+    path: /home/azuser/custom-resources.yaml
+    regexp: '^(.*)cidr(.*)$'
+    line: '      cidr: {{ pods_network }}/16'
+    backrefs: yes
+
+- name: Calico
+  command: kubectl apply -f /home/azuser/custom-resources.yaml
+  become: true

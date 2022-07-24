@@ -1,0 +1,7 @@
+---
+
+- name: Despliegue de ArgoCD
+  hosts: master
+  gather_facts: false
+  roles:
+    - { role: argocd, become: yes }

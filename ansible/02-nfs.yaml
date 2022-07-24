@@ -1,0 +1,9 @@
+---
+
+- name: Servidor NFS
+  hosts: nfs
+  vars_files:
+    - "group_vars/hosts.yaml"
+  gather_facts: false
+  roles:
+    - { role: nfs, become: yes }

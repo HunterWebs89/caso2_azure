@@ -1,0 +1,13 @@
+---
+
+- name: Servidor master
+  hosts: master
+  gather_facts: false
+  #vars_prompt:
+
+  #  - name: password
+  #    prompt: contraseña para el usuario kubeadmin
+  #    private: yes
+
+  roles:
+    - { role: ingress-controller, become: yes }
