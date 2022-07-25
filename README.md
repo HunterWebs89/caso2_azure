@@ -84,7 +84,7 @@ Caso Práctico 2 - UNIR (Curso Experto DevOps) - Sergio Gámez Delgado
 - Eliminados ficheros inválidos
 - Modificación del README.md
 
-## 24/07/2022 - Fix Configuraciones
+## 24/07/2022 - Fix Configuraciones (Entrega final)
 
 - Añadido Bash Script: script de despliegue terraform.sh
 - Modificacicaciones Terraform: output.tf
