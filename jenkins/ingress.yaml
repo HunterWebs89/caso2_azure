@@ -10,12 +10,15 @@ metadata:
 spec:
   rules:
   - host: jenkins.sgdcaso2.com
-    http:
+  - http:
       paths:
       - path: /
-        backend: 
-          serviceName: jenkins
-          servicePort: 8080
+        pathType: Prefix
+        backend:
+          service:
+            name: jenkins
+            port:
+              number: 8080
   tls:
     - hosts:
       - jenkins.sgdcaso2.com
