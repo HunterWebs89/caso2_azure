@@ -1,5 +1,5 @@
 # caso2_azure
-Caso Práctico 2 - UNIR (Curso Experto DevOps) 
+Caso Práctico 2 - UNIR (Curso Experto DevOps) - Sergio Gámez Delgado
 
 ## 03/07/2022 - Estructura del repositorio (organización)
 
