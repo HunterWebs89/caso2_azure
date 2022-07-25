@@ -47,7 +47,7 @@ Caso Práctico 2 - UNIR (Curso Experto DevOps) - Sergio Gámez Delgado
         └── worker-network.tf
         └── worker-security.tf
     ├── terraform.sh
-└── Ansible
+└── Jenkins
         └── deployment.yaml
         └── persistentvolume.yaml
         └── ingress.yaml
