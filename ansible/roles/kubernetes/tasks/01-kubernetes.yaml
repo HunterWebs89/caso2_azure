@@ -1,8 +1,12 @@
 ---
 
-- name: Montar nfs clientes fstab
-  command: echo "10.0.2.10:/mnt/shared_directory/ /mnt/shared_directory/ nfs defaults 0 0" | sudo tee -a /etc/fstab
-  become_user: azuser
+- name: Montar clientes nfs fstab
+  blockinfile:
+       path: /etc/fstab
+       state: present
+       block: |
+          10.0.2.10:/mnt/shared_directory/ /mnt/shared_directory/ nfs defaults 0 0
+  become_user: root
   become: true
 
 - name: Crear fichero de configuración para el runtime cri-o

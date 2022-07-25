@@ -46,6 +46,7 @@ Caso Práctico 2 - UNIR (Curso Experto DevOps)
         └── worker.tf
         └── worker-network.tf
         └── worker-security.tf
+    ├── terraform.sh
 └── Ansible
         └── deployment.yaml
         └── persistentvolume.yaml
@@ -80,6 +81,16 @@ Caso Práctico 2 - UNIR (Curso Experto DevOps)
 - Añadidos bash scripts
 - Añadida estructura de objetos yaml en K8s para desplegar Apps Jenkins/NFS-Server
 - Primeros pasos para generar Helm chart Apps Jenkins/NFS-Server (Prueba)
-- Modificación output.tf
 - Eliminados ficheros inválidos
+- Modificación del README.md
+
+## 24/07/2022 - Fix Configuraciones
+
+- Añadido Bash Script: script de despliegue terraform.sh
+- Modificacicaciones Terraform: output.tf
+- Modificaciones Ansible var: kubeadm-join
+- Modificaciones Ansible: rol kubernetes
+- Modificaciones Ansible: rol helm-app
+- Modificaciones Bash Script: deploy.sh
+- Modificaciones Jenkins: ingress
 - Modificación del README.md
